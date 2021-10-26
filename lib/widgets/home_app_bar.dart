@@ -13,10 +13,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({
     Key? key,
     required this.onAction,
-    this.color,
+    this.backgroundColor,
+    this.foregroundColor,
   }) : super(key: key);
 
-  final Color? color;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   /// The callback that is called when an app bar action is pressed.
   final Function(HomeAppBarActions action) onAction;
@@ -24,7 +26,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: color,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       elevation: 0.0,
       actions: [
         IconButton(

@@ -18,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // int _index = 0;
-  // late ColorIndex _colorIndex;
   ColorIndex _colorIndex = ColorIndex(0);
 
   /// The current app settings.
@@ -54,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (action) {
       // Go back to the previous index
       case HomeAppBarActions.back:
-        updateIndex(_appSettings.index.value - 1);
+        if (_appSettings.index.value > 0) updateIndex(_appSettings.index.value - 1);
+        // updateIndex(0);
         break;
       // Open the Google Play app page to allow the user to rate the app.
       case HomeAppBarActions.rate:
@@ -71,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeAppBar(
-        color: _colorIndex.color,
+        backgroundColor: _colorIndex.color,
+        foregroundColor: _colorIndex.contrastColor,
         onAction: _onAppBarAction,
       ),
       body: GestureDetector(

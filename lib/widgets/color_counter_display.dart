@@ -18,10 +18,15 @@ class ColorCounterDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: colorIndex.color,
-      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          LinearProgressIndicator(
+            value: colorIndex.index / 0xFFFFFF,
+            backgroundColor: colorIndex.color,
+            color: colorIndex.contrastColor,
+            // minHeight: 2.0,
+          ),
           Expanded(
             child: Center(
               child: Text(
@@ -32,12 +37,15 @@ class ColorCounterDisplay extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            colorIndex.colorNameAndHex(),
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  color: colorIndex.contrastColor,
-                ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
+            child: Text(
+              colorIndex.colorNameAndHex(),
+              textAlign: TextAlign.right,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    color: colorIndex.contrastColor,
+                  ),
+            ),
           ),
         ],
       ),
