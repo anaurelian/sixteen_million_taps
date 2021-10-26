@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sixteen_million_taps/models/color_index.dart';
-import 'package:sixteen_million_taps/utils/color_utils.dart';
 
 class ColorCounterDisplay extends StatelessWidget {
   const ColorCounterDisplay({
@@ -28,16 +27,10 @@ class ColorCounterDisplay extends StatelessWidget {
               ),
             ),
           ),
-          if (colorIndex.colorName != null)
-            Text(
-              colorIndex.colorName!,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: colorIndex.contrastColor,
-                  ),
-            ),
           Text(
-            ColorUtils.toHexString(colorIndex.color),
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            colorIndex.colorNameAndHex(),
+            textAlign: TextAlign.right,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   color: colorIndex.contrastColor,
                 ),
           ),

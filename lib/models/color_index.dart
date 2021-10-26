@@ -15,4 +15,6 @@ class ColorIndex {
   late final Color color;
   late final Color contrastColor;
   late final String? colorName;
+
+  String colorNameAndHex() => '${colorName ?? ''}\n${ColorUtils.toHexString(color)}';
 }
