@@ -1,5 +1,10 @@
+// Copyright 2014-2021 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:sixteen_million_taps/models/color_index.dart';
+import 'package:sixteen_million_taps/utils/utils.dart';
 
 class ColorCounterDisplay extends StatelessWidget {
   const ColorCounterDisplay({
@@ -20,8 +25,8 @@ class ColorCounterDisplay extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                colorIndex.index.toString(),
-                style: Theme.of(context).textTheme.headline6!.copyWith(
+                Utils.toDecimalString(context, colorIndex.index),
+                style: Theme.of(context).textTheme.headline4!.copyWith(
                       color: colorIndex.contrastColor,
                     ),
               ),
