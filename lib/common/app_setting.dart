@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSetting<T> {
@@ -5,6 +6,7 @@ class AppSetting<T> {
     required T defaultValue,
     required this.prefs,
     required this.key,
+    this.saveOnSet = true,
   }) {
     loadValue(defaultValue);
   }
@@ -15,11 +17,13 @@ class AppSetting<T> {
 
   final String key;
 
+  final bool saveOnSet;
+
   T get value => _value;
 
   set value(T value) {
     _value = value;
-    _saveValue(value);
+    if (saveOnSet) _saveValue(value);
   }
 
   void loadValue(T defaultValue) {

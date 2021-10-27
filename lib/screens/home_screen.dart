@@ -19,16 +19,47 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   TapColorCount _tapColorCount = TapColorCount(0);
 
   /// The current app settings.
   final AppSettings _appSettings = AppSettings();
 
+  late final Stopwatch _stopwatch;
+
   @override
   void initState() {
-    _loadSettings();
     super.initState();
+
+    // _loadSettings();
+    _loadSettings().then((value) {
+      print('after _loadSettings: ${_appSettings.appUsage.value}');
+    });
+    print('initState - starting _stopwatch');
+    _stopwatch = Stopwatch()..start();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _stopwatch.start();
+        print('resumed');
+        break;
+      case AppLifecycleState.paused:
+        _stopwatch.stop();
+        _appSettings.appUsage.value += _stopwatch.elapsed.inSeconds;
+        print('didChangeAppLifecycleState - $state: ${_stopwatch.elapsed.inSeconds} - ${_appSettings.appUsage.value}');
+        _stopwatch.reset();
+        break;
+    }
   }
 
   /// Load and apply settings
@@ -61,7 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openInfoScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => InfoScreen(tapColorCount: _tapColorCount)),
+      MaterialPageRoute(
+        builder: (context) => InfoScreen(
+          tapColorCount: _tapColorCount,
+          appUsage: _appSettings.appUsage.value + _stopwatch.elapsed.inSeconds,
+        ),
+      ),
     );
   }
 

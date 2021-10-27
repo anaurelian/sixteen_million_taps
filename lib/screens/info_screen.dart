@@ -20,10 +20,13 @@ class InfoScreen extends StatelessWidget {
   const InfoScreen({
     Key? key,
     required this.tapColorCount,
+    required this.appUsage,
   }) : super(key: key);
 
   /// The color name and code that is displayed in the info screen.
   final TapColorCount tapColorCount;
+
+  final int appUsage;
 
   /// When one of the copy buttons is pressed, copy the associated color value to the Clipboard,
   /// and show a confirmation snackbar.
@@ -59,7 +62,8 @@ class InfoScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: tapColorCount.contrastColor),
+          style:
+              Theme.of(context).textTheme.bodyText2!.copyWith(color: tapColorCount.contrastColor),
           child: Column(
             children: [
               _buildInfoTable(context, [
@@ -89,6 +93,13 @@ class InfoScreen extends StatelessWidget {
                 [
                   UIStrings.infoColorRGB,
                   ColorUtils.toRGBString(color),
+                ],
+              ]),
+              const SizedBox(height: 32.0),
+              _buildInfoTable(context, [
+                [
+                  UIStrings.infoAppUsage,
+                  appUsage.toString(),
                 ],
               ]),
             ],

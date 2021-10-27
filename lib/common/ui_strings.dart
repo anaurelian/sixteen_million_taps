@@ -33,6 +33,7 @@ class UIStrings {
   static const String infoColorName = 'Color name';
   static const String infoColorHex = 'Hex triplet';
   static const String infoColorRGB = 'RGB';
+  static const String infoAppUsage = 'App usage';
 
   static const String infoCopy = 'copy';
 
