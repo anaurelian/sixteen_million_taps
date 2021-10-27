@@ -20,6 +20,10 @@ class Utils {
     return ((actual / available) * 100).toStringAsFixed(3) + '%';
   }
 
+  static String toDurationString(Duration duration) {
+    return '$duration'.split('.')[0].padLeft(8, '0');
+  }
+
   /// Shows a default [SnackBar] with the specified text, after hiding any previous snackbars.
   static void showSnackBar(BuildContext context, String text) {
     final SnackBar snackBar = SnackBar(content: Text(text));

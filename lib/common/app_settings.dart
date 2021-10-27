@@ -8,7 +8,7 @@ class AppSettings {
   /// Loads app settings from persistent storage.
   Future<void> load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    tapCount = AppSetting<int>(defaultValue: 0, prefs: prefs, key: 'tapCount');
+    tapCount = AppSetting<int>(defaultValue: 0, prefs: prefs, key: 'tapCount', saveOnSet: false);
     appUsage = AppSetting<int>(defaultValue: 0, prefs: prefs, key: 'appUsage');
   }
 }

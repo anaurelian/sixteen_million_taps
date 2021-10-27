@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSetting<T> {
@@ -8,7 +7,7 @@ class AppSetting<T> {
     required this.key,
     this.saveOnSet = true,
   }) {
-    loadValue(defaultValue);
+    _loadValue(defaultValue);
   }
 
   late T _value;
@@ -21,12 +20,12 @@ class AppSetting<T> {
 
   T get value => _value;
 
-  set value(T value) {
-    _value = value;
-    if (saveOnSet) _saveValue(value);
+  set value(T newValue) {
+    _value = newValue;
+    if (saveOnSet) saveValue();
   }
 
-  void loadValue(T defaultValue) {
+  void _loadValue(T defaultValue) {
     switch (T) {
       case bool:
         _value = (prefs.getBool(key) ?? defaultValue) as T;
@@ -43,19 +42,19 @@ class AppSetting<T> {
     }
   }
 
-  Future<void> _saveValue(T value) async {
+  Future<void> saveValue() async {
     switch (T) {
       case bool:
-        await prefs.setBool(key, value as bool);
+        await prefs.setBool(key, _value as bool);
         break;
       case int:
-        await prefs.setInt(key, value as int);
+        await prefs.setInt(key, _value as int);
         break;
       case double:
-        await prefs.setDouble(key, value as double);
+        await prefs.setDouble(key, _value as double);
         break;
       case String:
-        await prefs.setString(key, value as String);
+        await prefs.setString(key, _value as String);
         break;
     }
   }

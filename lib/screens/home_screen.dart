@@ -2,6 +2,8 @@
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sixteen_million_taps/common/app_const.dart';
 import 'package:sixteen_million_taps/common/app_settings.dart';
@@ -31,11 +33,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    // _loadSettings();
-    _loadSettings().then((value) {
-      print('after _loadSettings: ${_appSettings.appUsage.value}');
-    });
-    print('initState - starting _stopwatch');
+    _loadSettings();
     _stopwatch = Stopwatch()..start();
     WidgetsBinding.instance!.addObserver(this);
   }
@@ -48,17 +46,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _stopwatch.start();
-        print('resumed');
-        break;
-      case AppLifecycleState.paused:
-        _stopwatch.stop();
-        _appSettings.appUsage.value += _stopwatch.elapsed.inSeconds;
-        print('didChangeAppLifecycleState - $state: ${_stopwatch.elapsed.inSeconds} - ${_appSettings.appUsage.value}');
-        _stopwatch.reset();
-        break;
+    if (state == AppLifecycleState.resumed) {
+      _stopwatch.start();
+    } else {
+      _appSettings.tapCount.saveValue();
+      _appSettings.appUsage.value += _stopwatch.elapsed.inSeconds;
+      _stopwatch.stop();
+      _stopwatch.reset();
     }
   }
 
@@ -76,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       return;
     }
 
-    // TODO: Stop writing to SharedPreferences for each increment?
     if (newValue >= 0) {
       setState(() {
         _appSettings.tapCount.value = newValue;

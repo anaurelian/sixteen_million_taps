@@ -99,7 +99,7 @@ class InfoScreen extends StatelessWidget {
               _buildInfoTable(context, [
                 [
                   UIStrings.infoAppUsage,
-                  appUsage.toString(),
+                  Utils.toDurationString(Duration(seconds: appUsage)),
                 ],
               ]),
             ],
