@@ -10,7 +10,7 @@
     </queries>
 
     <application
-        android:label="sixteen_million_taps"
+        android:label="16 Million Taps"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
