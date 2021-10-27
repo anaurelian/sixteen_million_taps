@@ -11,9 +11,12 @@ class ColorCounterDisplay extends StatelessWidget {
   const ColorCounterDisplay({
     Key? key,
     required this.colorIndex,
+    this.onColorLongPress,
   }) : super(key: key);
 
   final ColorIndex colorIndex;
+
+  final void Function()? onColorLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +41,17 @@ class ColorCounterDisplay extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
-            child: Text(
-              colorIndex.colorNameAndHex(),
-              textAlign: TextAlign.right,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: colorIndex.contrastColor,
-                  ),
+          GestureDetector(
+            onLongPress: onColorLongPress,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
+              child: Text(
+                colorIndex.colorNameAndHex(),
+                textAlign: TextAlign.right,
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      color: colorIndex.contrastColor,
+                    ),
+              ),
             ),
           ),
         ],

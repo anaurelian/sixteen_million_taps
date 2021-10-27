@@ -60,46 +60,37 @@ class InfoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText2!.copyWith(color: colorIndex.contrastColor),
-          child: Table(
-            border: TableBorder.all(color: colorIndex.contrastColor.withOpacity(0.25)),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            columnWidths: const <int, TableColumnWidth>{
-              0: IntrinsicColumnWidth(),
-              1: FlexColumnWidth(2),
-              2: IntrinsicColumnWidth(),
-            },
+          child: Column(
             children: [
-              _buildInfo(
-                context,
-                UIStrings.infoCount,
-                Utils.toDecimalString(context, colorIndex.index),
-              ),
-              _buildInfo(
-                context,
-                UIStrings.infoRemaining,
-                Utils.toDecimalString(context, AppConst.maxCount - colorIndex.index),
-              ),
-              _buildInfo(
-                context,
-                UIStrings.infoCompleted,
-                Utils.toPercentageString(colorIndex.index, AppConst.maxCount),
-              ),
-              _buildInfo(context, UIStrings.infoColorName, colorIndex.colorName ?? 'n/a'),
-              _buildInfo(context, UIStrings.infoColorHex, ColorUtils.toHexString(color)),
-              // _buildInfo(context, UIStrings.infoRGB, ColorUtils.toRGBString(color)),
-              // _buildInfo(context, UIStrings.infoHSV, ColorUtils.toHSVString(color)),
-              // _buildInfo(context, UIStrings.infoHSL, ColorUtils.toHSLString(color)),
-              // _buildInfo(context, UIStrings.infoDecimal, '${color.withAlpha(0).value}'),
-              // _buildInfo(
-              //   context,
-              //   UIStrings.infoLuminance,
-              //   color.computeLuminance().toStringAsFixed(5),
-              // ),
-              // _buildInfo(
-              //   context,
-              //   UIStrings.infoBrightness,
-              //   describeEnum(ThemeData.estimateBrightnessForColor(color)),
-              // ),
+              _buildInfoTable(context, [
+                [
+                  UIStrings.infoCount,
+                  Utils.toDecimalString(context, colorIndex.index),
+                ],
+                [
+                  UIStrings.infoRemaining,
+                  Utils.toDecimalString(context, AppConst.maxCount - colorIndex.index),
+                ],
+                [
+                  UIStrings.infoCompleted,
+                  Utils.toPercentageString(colorIndex.index, AppConst.maxCount),
+                ],
+              ]),
+              const SizedBox(height: 32.0),
+              _buildInfoTable(context, [
+                [
+                  UIStrings.infoColorName,
+                  colorIndex.colorName ?? 'n/a',
+                ],
+                [
+                  UIStrings.infoColorHex,
+                  ColorUtils.toHexString(color),
+                ],
+                [
+                  UIStrings.infoColorRGB,
+                  ColorUtils.toRGBString(color),
+                ],
+              ]),
             ],
           ),
         ),
@@ -107,8 +98,23 @@ class InfoScreen extends StatelessWidget {
     );
   }
 
+  Table _buildInfoTable(BuildContext context, List<List<String>> infos) {
+    return Table(
+      border: TableBorder.all(color: colorIndex.contrastColor.withOpacity(0.25)),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      columnWidths: const <int, TableColumnWidth>{
+        0: FixedColumnWidth(110.0),
+        1: FlexColumnWidth(2.0),
+        2: IntrinsicColumnWidth(),
+      },
+      children: [
+        for (List row in infos) _buildInfoRow(context, row[0], row[1]),
+      ],
+    );
+  }
+
   /// Builds a color information table row, with the specified key and value, and a copy button.
-  TableRow _buildInfo(BuildContext context, String key, String value) {
+  TableRow _buildInfoRow(BuildContext context, String key, String value) {
     return TableRow(
       children: [
         Padding(

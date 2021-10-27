@@ -30,8 +30,9 @@ class UIStrings {
   static const String infoCount = 'Count';
   static const String infoRemaining = 'Remaining';
   static const String infoCompleted = 'Completed';
-  static const String infoColorName = 'Color Name';
+  static const String infoColorName = 'Color name';
   static const String infoColorHex = 'Hex triplet';
+  static const String infoColorRGB = 'RGB';
 
   static const String infoCopy = 'copy';
 

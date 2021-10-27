@@ -17,7 +17,7 @@ class Utils {
   }
 
   static String toPercentageString(int actual, int available) {
-    return ((actual / available) * 100).toStringAsFixed(2) + '%';
+    return ((actual / available) * 100).toStringAsFixed(3) + '%';
   }
 
   /// Shows a default [SnackBar] with the specified text, after hiding any previous snackbars.

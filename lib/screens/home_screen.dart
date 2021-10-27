@@ -38,13 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {}); // Refresh after loading settings.
   }
 
-  void updateIndex(int newValue) {
+  void _updateIndex(int newValue) {
     if (newValue > AppConst.maxCount) {
       // TODO: Show a Congratulations Splash Screen
       Utils.showSnackBar(context, "Congratulations! Done.");
       return;
     }
 
+    // TODO: Stop writing to SharedPreferences for each increment?
     if (newValue >= 0) {
       setState(() {
         _appSettings.index.value = newValue;
@@ -53,8 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void incrementIndex() {
-    updateIndex(_appSettings.index.value + 1);
+  void _incrementIndex() {
+    _updateIndex(_appSettings.index.value + 1);
+  }
+
+  void _openInfoScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => InfoScreen(colorIndex: _colorIndex)),
+    );
   }
 
   /// Perform the actions of the app bar.
@@ -62,15 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (action) {
       // Go back to the previous index
       case HomeAppBarActions.back:
-        updateIndex(_appSettings.index.value - 1);
-        // updateIndex(0xFFFF00);
+        _updateIndex(_appSettings.index.value - 1);
+        // updateIndex(800);
         break;
       // Navigate to the Info Screen.
       case HomeAppBarActions.info:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => InfoScreen(colorIndex: _colorIndex)),
-        );
+        _openInfoScreen();
         break;
       // Open the Google Play app page to allow the user to rate the app.
       case HomeAppBarActions.rate:
@@ -92,9 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onAction: _onAppBarAction,
       ),
       body: GestureDetector(
-        onTap: incrementIndex,
+        onTap: _incrementIndex,
         child: ColorCounterDisplay(
           colorIndex: _colorIndex,
+          onColorLongPress: _openInfoScreen,
         ),
       ),
     );

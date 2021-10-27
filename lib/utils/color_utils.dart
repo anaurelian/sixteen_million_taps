@@ -19,4 +19,6 @@ class ColorUtils {
   static String toHexString(Color color) =>
       '#${(color.value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
 
+  /// Returns the RGB string representation of a [Color].
+  static String toRGBString(Color color) => '${color.red}, ${color.green}, ${color.blue}';
 }
