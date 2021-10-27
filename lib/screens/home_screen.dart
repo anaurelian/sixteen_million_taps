@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:sixteen_million_taps/common/app_const.dart';
 import 'package:sixteen_million_taps/common/app_settings.dart';
 import 'package:sixteen_million_taps/common/ui_strings.dart';
-import 'package:sixteen_million_taps/models/color_index.dart';
+import 'package:sixteen_million_taps/models/tap_color_count.dart';
 import 'package:sixteen_million_taps/screens/info_screen.dart';
 import 'package:sixteen_million_taps/utils/utils.dart';
 import 'package:sixteen_million_taps/widgets/color_counter_display.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ColorIndex _colorIndex = ColorIndex(0);
+  TapColorCount _tapColorCount = TapColorCount(0);
 
   /// The current app settings.
   final AppSettings _appSettings = AppSettings();
@@ -34,11 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Load and apply settings
   Future<void> _loadSettings() async {
     await _appSettings.load();
-    _colorIndex = ColorIndex(_appSettings.index.value);
+    _tapColorCount = TapColorCount(_appSettings.tapCount.value);
     setState(() {}); // Refresh after loading settings.
   }
 
-  void _updateIndex(int newValue) {
+  void _updateCount(int newValue) {
     if (newValue > AppConst.maxCount) {
       // TODO: Show a Congratulations Splash Screen
       Utils.showSnackBar(context, "Congratulations! Done.");
@@ -48,30 +48,29 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: Stop writing to SharedPreferences for each increment?
     if (newValue >= 0) {
       setState(() {
-        _appSettings.index.value = newValue;
-        _colorIndex = ColorIndex(_appSettings.index.value);
+        _appSettings.tapCount.value = newValue;
+        _tapColorCount = TapColorCount(_appSettings.tapCount.value);
       });
     }
   }
 
-  void _incrementIndex() {
-    _updateIndex(_appSettings.index.value + 1);
+  void _incrementCount() {
+    _updateCount(_appSettings.tapCount.value + 1);
   }
 
   void _openInfoScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => InfoScreen(colorIndex: _colorIndex)),
+      MaterialPageRoute(builder: (context) => InfoScreen(tapColorCount: _tapColorCount)),
     );
   }
 
   /// Perform the actions of the app bar.
   void _onAppBarAction(HomeAppBarActions action) {
     switch (action) {
-      // Go back to the previous index
+      // Decrease tap count
       case HomeAppBarActions.back:
-        _updateIndex(_appSettings.index.value - 1);
-        // updateIndex(800);
+        _updateCount(_appSettings.tapCount.value - 1);
         break;
       // Navigate to the Info Screen.
       case HomeAppBarActions.info:
@@ -92,14 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeAppBar(
-        backgroundColor: _colorIndex.color,
-        foregroundColor: _colorIndex.contrastColor,
+        backgroundColor: _tapColorCount.color,
+        foregroundColor: _tapColorCount.contrastColor,
         onAction: _onAppBarAction,
       ),
       body: GestureDetector(
-        onTap: _incrementIndex,
+        onTap: _incrementCount,
         child: ColorCounterDisplay(
-          colorIndex: _colorIndex,
+          tapColorCount: _tapColorCount,
           onColorLongPress: _openInfoScreen,
         ),
       ),

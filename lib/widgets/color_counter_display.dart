@@ -4,39 +4,39 @@
 
 import 'package:flutter/material.dart';
 import 'package:sixteen_million_taps/common/app_const.dart';
-import 'package:sixteen_million_taps/models/color_index.dart';
+import 'package:sixteen_million_taps/models/tap_color_count.dart';
 import 'package:sixteen_million_taps/utils/utils.dart';
 
 class ColorCounterDisplay extends StatelessWidget {
   const ColorCounterDisplay({
     Key? key,
-    required this.colorIndex,
+    required this.tapColorCount,
     this.onColorLongPress,
   }) : super(key: key);
 
-  final ColorIndex colorIndex;
+  final TapColorCount tapColorCount;
 
   final void Function()? onColorLongPress;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: colorIndex.color,
+      color: tapColorCount.color,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           LinearProgressIndicator(
-            value: colorIndex.index / AppConst.maxCount,
-            backgroundColor: colorIndex.color,
-            color: colorIndex.contrastColor,
+            value: tapColorCount.count / AppConst.maxCount,
+            backgroundColor: tapColorCount.color,
+            color: tapColorCount.contrastColor,
             // minHeight: 2.0,
           ),
           Expanded(
             child: Center(
               child: Text(
-                Utils.toDecimalString(context, colorIndex.index),
+                Utils.toDecimalString(context, tapColorCount.count),
                 style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: colorIndex.contrastColor,
+                      color: tapColorCount.contrastColor,
                     ),
               ),
             ),
@@ -46,10 +46,10 @@ class ColorCounterDisplay extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
               child: Text(
-                colorIndex.colorNameAndHex(),
+                tapColorCount.colorNameAndHex(),
                 textAlign: TextAlign.right,
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: colorIndex.contrastColor,
+                      color: tapColorCount.contrastColor,
                     ),
               ),
             ),

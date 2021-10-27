@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sixteen_million_taps/common/app_const.dart';
 import 'package:sixteen_million_taps/common/ui_strings.dart';
-import 'package:sixteen_million_taps/models/color_index.dart';
+import 'package:sixteen_million_taps/models/tap_color_count.dart';
 import 'package:sixteen_million_taps/utils/color_utils.dart';
 import 'package:sixteen_million_taps/utils/utils.dart';
 
@@ -19,11 +19,11 @@ import 'package:sixteen_million_taps/utils/utils.dart';
 class InfoScreen extends StatelessWidget {
   const InfoScreen({
     Key? key,
-    required this.colorIndex,
+    required this.tapColorCount,
   }) : super(key: key);
 
   /// The color name and code that is displayed in the info screen.
-  final ColorIndex colorIndex;
+  final TapColorCount tapColorCount;
 
   /// When one of the copy buttons is pressed, copy the associated color value to the Clipboard,
   /// and show a confirmation snackbar.
@@ -39,13 +39,13 @@ class InfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = colorIndex.color;
+    final Color color = tapColorCount.color;
 
     return Scaffold(
       backgroundColor: color,
       appBar: AppBar(
-        backgroundColor: colorIndex.color,
-        foregroundColor: colorIndex.contrastColor,
+        backgroundColor: tapColorCount.color,
+        foregroundColor: tapColorCount.contrastColor,
         elevation: 0.0,
         title: const Text(UIStrings.infoScreenTitle),
         // actions: [
@@ -59,28 +59,28 @@ class InfoScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: colorIndex.contrastColor),
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: tapColorCount.contrastColor),
           child: Column(
             children: [
               _buildInfoTable(context, [
                 [
                   UIStrings.infoCount,
-                  Utils.toDecimalString(context, colorIndex.index),
+                  Utils.toDecimalString(context, tapColorCount.count),
                 ],
                 [
                   UIStrings.infoRemaining,
-                  Utils.toDecimalString(context, AppConst.maxCount - colorIndex.index),
+                  Utils.toDecimalString(context, AppConst.maxCount - tapColorCount.count),
                 ],
                 [
                   UIStrings.infoCompleted,
-                  Utils.toPercentageString(colorIndex.index, AppConst.maxCount),
+                  Utils.toPercentageString(tapColorCount.count, AppConst.maxCount),
                 ],
               ]),
               const SizedBox(height: 32.0),
               _buildInfoTable(context, [
                 [
                   UIStrings.infoColorName,
-                  colorIndex.colorName ?? 'n/a',
+                  tapColorCount.colorName ?? 'n/a',
                 ],
                 [
                   UIStrings.infoColorHex,
@@ -100,7 +100,7 @@ class InfoScreen extends StatelessWidget {
 
   Table _buildInfoTable(BuildContext context, List<List<String>> infos) {
     return Table(
-      border: TableBorder.all(color: colorIndex.contrastColor.withOpacity(0.25)),
+      border: TableBorder.all(color: tapColorCount.contrastColor.withOpacity(0.25)),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       columnWidths: const <int, TableColumnWidth>{
         0: FixedColumnWidth(110.0),
@@ -127,7 +127,7 @@ class InfoScreen extends StatelessWidget {
         ),
         TextButton(
           child: const Text(UIStrings.infoCopy),
-          style: TextButton.styleFrom(primary: colorIndex.contrastColor),
+          style: TextButton.styleFrom(primary: tapColorCount.contrastColor),
           onPressed: () => _onCopyPressed(context, value),
         ),
       ],
