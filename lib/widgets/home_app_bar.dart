@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:sixteen_million_taps/common/app_strings.dart';
+import 'package:sixteen_million_taps/common/ui_strings.dart';
 
 /// The actions available in the app bar.
-enum HomeAppBarActions { back, rate, what }
+enum HomeAppBarActions { info, back, rate, what }
 
 /// The app bar of the Home Screen.
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,19 +32,23 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.undo),
-          tooltip: AppStrings.backActionTooltip,
+          tooltip: UIStrings.backActionTooltip,
           onPressed: () => onAction(HomeAppBarActions.back),
         ),
         PopupMenuButton<HomeAppBarActions>(
           onSelected: onAction,
           itemBuilder: (BuildContext context) => <PopupMenuEntry<HomeAppBarActions>>[
             const PopupMenuItem<HomeAppBarActions>(
+              value: HomeAppBarActions.info,
+              child: Text(UIStrings.infoAction),
+            ),
+            const PopupMenuItem<HomeAppBarActions>(
               value: HomeAppBarActions.rate,
-              child: Text(AppStrings.rateAction),
+              child: Text(UIStrings.rateAction),
             ),
             const PopupMenuItem<HomeAppBarActions>(
               value: HomeAppBarActions.what,
-              child: Text(AppStrings.whatAction),
+              child: Text(UIStrings.whatAction),
             ),
           ],
         ),

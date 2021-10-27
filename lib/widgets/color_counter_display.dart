@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:sixteen_million_taps/common/app_const.dart';
 import 'package:sixteen_million_taps/models/color_index.dart';
 import 'package:sixteen_million_taps/utils/utils.dart';
 
@@ -22,7 +23,7 @@ class ColorCounterDisplay extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           LinearProgressIndicator(
-            value: colorIndex.index / 0xFFFFFF,
+            value: colorIndex.index / AppConst.maxCount,
             backgroundColor: colorIndex.color,
             color: colorIndex.contrastColor,
             // minHeight: 2.0,

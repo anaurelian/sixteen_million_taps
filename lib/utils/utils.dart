@@ -16,6 +16,10 @@ class Utils {
     return localizations.formatDecimal(number);
   }
 
+  static String toPercentageString(int actual, int available) {
+    return ((actual / available) * 100).toStringAsFixed(2) + '%';
+  }
+
   /// Shows a default [SnackBar] with the specified text, after hiding any previous snackbars.
   static void showSnackBar(BuildContext context, String text) {
     final SnackBar snackBar = SnackBar(content: Text(text));
